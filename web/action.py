@@ -73,7 +73,7 @@ class WebAction:
             "del_site": self.__del_site,
             "get_site_favicon": self.__get_site_favicon,
             "restart": self.__restart,
-            "update_system": self.update_system,
+            # "update_system": self.update_system,
             "reset_db_version": self.__reset_db_version,
             "logout": self.__logout,
             "update_config": self.__update_config,
@@ -280,7 +280,7 @@ class WebAction:
             "/tbl": {"func": WebAction().truncate_blacklist, "desp": "清理转移缓存"},
             "/trh": {"func": WebAction().truncate_rsshistory, "desp": "清理RSS缓存"},
             "/utf": {"func": WebAction().unidentification, "desp": "重新识别"},
-            "/udt": {"func": WebAction().update_system, "desp": "系统更新"}
+            # "/udt": {"func": WebAction().update_system, "desp": "系统更新"}
         }
         command = commands.get(msg)
         message = Message()
@@ -1156,43 +1156,43 @@ class WebAction:
         self.restart_server()
         return {"code": 0}
 
-    def update_system(self, data=None):
-        """
-        更新
-        """
-        # 升级
-        if SystemUtils.is_synology():
-            if SystemUtils.execute('/bin/ps -w -x | grep -v grep | grep -w "nastool update" | wc -l') == '0':
-                # 调用群晖套件内置命令升级
-                os.system('nastool update')
-                # 重启
-                self.restart_server()
-        else:
-            # 清除git代理
-            os.system("git config --global --unset http.proxy")
-            os.system("git config --global --unset https.proxy")
-            # 设置git代理
-            proxy = Config().get_proxies() or {}
-            http_proxy = proxy.get("http")
-            https_proxy = proxy.get("https")
-            if http_proxy or https_proxy:
-                os.system(
-                    f"git config --global http.proxy {http_proxy or https_proxy}")
-                os.system(
-                    f"git config --global https.proxy {https_proxy or http_proxy}")
-            # 清理
-            os.system("git clean -dffx")
-            # 升级
-            branch = "dev" if os.environ.get(
-                "NASTOOL_VERSION") == "dev" else "master"
-            os.system(f"git fetch --depth 1 origin {branch}")
-            os.system(f"git reset --hard origin/{branch}")
-            os.system("git submodule update --init --recursive")
-            # 安装依赖
-            os.system('pip install -r /nas-tools/requirements.txt')
-            # 重启
-            self.restart_server()
-        return {"code": 0}
+    # def update_system(self, data=None):
+    #     """
+    #     更新
+    #     """
+    #     # 升级
+    #     if SystemUtils.is_synology():
+    #         if SystemUtils.execute('/bin/ps -w -x | grep -v grep | grep -w "nastool update" | wc -l') == '0':
+    #             # 调用群晖套件内置命令升级
+    #             os.system('nastool update')
+    #             # 重启
+    #             self.restart_server()
+    #     else:
+    #         # 清除git代理
+    #         os.system("git config --global --unset http.proxy")
+    #         os.system("git config --global --unset https.proxy")
+    #         # 设置git代理
+    #         proxy = Config().get_proxies() or {}
+    #         http_proxy = proxy.get("http")
+    #         https_proxy = proxy.get("https")
+    #         if http_proxy or https_proxy:
+    #             os.system(
+    #                 f"git config --global http.proxy {http_proxy or https_proxy}")
+    #             os.system(
+    #                 f"git config --global https.proxy {https_proxy or http_proxy}")
+    #         # 清理
+    #         os.system("git clean -dffx")
+    #         # 升级
+    #         branch = "dev" if os.environ.get(
+    #             "NASTOOL_VERSION") == "dev" else "master"
+    #         os.system(f"git fetch --depth 1 origin {branch}")
+    #         os.system(f"git reset --hard origin/{branch}")
+    #         os.system("git submodule update --init --recursive")
+    #         # 安装依赖
+    #         os.system('pip install -r /nas-tools/requirements.txt')
+    #         # 重启
+    #         self.restart_server()
+    #     return {"code": 0}
 
     def __reset_db_version(self, data):
         """

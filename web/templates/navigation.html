@@ -2317,22 +2317,22 @@
     });
   }
 
-  //更新
-  function update(version) {
-    let title;
-    if (version) {
-      title = "是否确认更新到 " + version + " 版本？";
-    } else {
-      title = "将从Github拉取最新程序代码并重启，是否确认？";
-    }
-    show_confirm_modal(title, function () {
-      hide_confirm_modal();
-      ajax_post("update_system", {}, function (ret) {
-      }, true, false)
-      show_wait_modal(true);
-      setTimeout("check_system_online()", 5000);
-    });
-  }
+<!--  //更新-->
+<!--  function update(version) {-->
+<!--    let title;-->
+<!--    if (version) {-->
+<!--      title = "是否确认更新到 " + version + " 版本？";-->
+<!--    } else {-->
+<!--      title = "将从Github拉取最新程序代码并重启，是否确认？";-->
+<!--    }-->
+<!--    show_confirm_modal(title, function () {-->
+<!--      hide_confirm_modal();-->
+<!--      ajax_post("update_system", {}, function (ret) {-->
+<!--      }, true, false)-->
+<!--      show_wait_modal(true);-->
+<!--      setTimeout("check_system_online()", 5000);-->
+<!--    });-->
+<!--  }-->
 
   //导航点击
   function navmenu(page, newflag=false) {

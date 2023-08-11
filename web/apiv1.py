@@ -882,15 +882,15 @@ class SystemRestart(ClientResource):
         return WebAction().api_action(cmd='restart')
 
 
-@system.route('/update')
-class SystemUpdate(ClientResource):
-
-    @staticmethod
-    def post():
-        """
-        升级
-        """
-        return WebAction().api_action(cmd='update_system')
+# @system.route('/update')
+# class SystemUpdate(ClientResource):
+#
+#     @staticmethod
+#     def post():
+#         """
+#         升级
+#         """
+#         return WebAction().api_action(cmd='update_system')
 
 
 @system.route('/logout')

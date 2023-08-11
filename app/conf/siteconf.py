@@ -477,4 +477,25 @@ class SiteConf:
         }
     }
     # 公共BT站点
-    PUBLIC_TORRENT_SITES = {}
+    PUBLIC_TORRENT_SITES = {
+        'acg.rip': {
+            "proxy": False
+        },
+        'www.dongmanhuayuan.com': {
+            "proxy": False
+        },
+        'mikanime.tv': {
+            "proxy": False
+        },
+        'gaoqing.fm': {
+            "proxy": False
+        },
+        'www.mp4ba.vip': {
+            "proxy": False,
+            "referer": True
+        },
+        'www.comicat.org': {
+            "proxy": False
+        }
+    }
+
