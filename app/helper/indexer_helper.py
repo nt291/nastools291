@@ -1,10 +1,10 @@
 import os.path
-import pickle
+
+import ruamel
 
 from app.utils import StringUtils, ExceptionUtils, PathUtils
 from app.utils.commons import singleton
 from config import Config
-import ruamel
 
 
 @singleton
@@ -16,7 +16,7 @@ class IndexerHelper:
 
   def init_config(self):
     try:
-      # 读取明文配置文件
+      # 读取明文配置文件(取代sites.dat)
       _indexers = []
       _site_path = os.path.join(Config().get_config_path(), "sites")
       cfg_files = PathUtils.get_dir_files(in_path=_site_path, exts=[".yml"])
@@ -27,9 +27,22 @@ class IndexerHelper:
       self._indexers = _indexers
     except Exception as err:
       ExceptionUtils.exception_traceback(err)
+    self.get_all_public_indexers()
 
   def get_all_indexers(self):
     return self._indexers
+
+  def get_all_public_indexers(self):
+    """
+    获取所有的公开站点，并返回字段
+    :return: 公开站点的字典
+    """
+    _public_site = {}
+    for _indexer in self._indexers:
+      if 'public' in _indexer and _indexer['public']:
+        _, netloc = StringUtils.get_url_netloc(_indexer.get("domain"))
+        _public_site[netloc] = _indexer
+    return _public_site
 
   def get_indexer(self,
       url,

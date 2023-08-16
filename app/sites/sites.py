@@ -7,7 +7,7 @@ from functools import lru_cache
 from lxml import etree
 
 from app.conf import SiteConf
-from app.helper import ChromeHelper, SiteHelper, DbHelper
+from app.helper import ChromeHelper, SiteHelper, DbHelper, IndexerHelper
 from app.message import Message
 from app.utils import RequestUtils, StringUtils, ExceptionUtils
 from app.utils.commons import singleton
@@ -390,26 +390,28 @@ class Sites:
         time.sleep(round(random.uniform(1, 5), 1))
         return ret_attr
 
-    @staticmethod
-    def is_public_site(url):
-        """
-        判断是否为公开BT站点
-        """
-        _, netloc = StringUtils.get_url_netloc(url)
-        if netloc in SiteConf.PUBLIC_TORRENT_SITES.keys():
-            return True
-        return False
+    # @staticmethod
+    # def is_public_site(url):
+    #     """
+    #     判断是否为公开BT站点
+    #     """
+    #     _, netloc = StringUtils.get_url_netloc(url)
+    #     if netloc in SiteConf.PUBLIC_TORRENT_SITES.keys():
+    #         return True
+    #     return False
 
     @staticmethod
     def get_public_sites(url=None):
         """
         查询所有公开BT站点
         """
+        _indexer_helper = IndexerHelper()
         if url:
             _, netloc = StringUtils.get_url_netloc(url)
-            return SiteConf.PUBLIC_TORRENT_SITES.get(netloc) or {}
+            return _indexer_helper.get_all_public_indexers().get(netloc) or {}
+            # return SiteConf.PUBLIC_TORRENT_SITES.get(netloc) or {}
         else:
-            return SiteConf.PUBLIC_TORRENT_SITES.items()
+            return _indexer_helper.get_all_public_indexers().items()
 
     @staticmethod
     def __get_site_note_items(note):

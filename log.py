@@ -42,7 +42,7 @@ class Logger:
                     logport = 514
                 log_server_handler = logging.handlers.SysLogHandler((logip, logport),
                                                                     logging.handlers.SysLogHandler.LOG_USER)
-                log_server_handler.setFormatter(logging.Formatter('%(filename)s: %(message)s'))
+                log_server_handler.setFormatter(logging.Formatter('[%(filename)s:%(lineno)s]: %(message)s'))
                 self.logger.addHandler(log_server_handler)
         elif logtype == "file":
             # 记录日志到文件
@@ -54,11 +54,11 @@ class Logger:
                                                        maxBytes=5 * 1024 * 1024,
                                                        backupCount=3,
                                                        encoding='utf-8')
-                log_file_handler.setFormatter(logging.Formatter('%(asctime)s\t%(levelname)s: %(message)s'))
+                log_file_handler.setFormatter(logging.Formatter('%(asctime)s\t%(levelname)s - [%(filename)s:%(lineno)s]: %(message)s'))
                 self.logger.addHandler(log_file_handler)
         # 记录日志到终端
         log_console_handler = logging.StreamHandler()
-        log_console_handler.setFormatter(logging.Formatter('%(asctime)s\t%(levelname)s: %(message)s'))
+        log_console_handler.setFormatter(logging.Formatter('%(asctime)s\t%(levelname)s - [%(filename)s:%(lineno)s]: %(message)s'))
         self.logger.addHandler(log_console_handler)
 
     @staticmethod

@@ -38,3 +38,8 @@ https://github.com/jxxghp/nas-tools/releases
 
 * 使用poetry管理python依赖
 * 升级python 3.11.x，开发时使用poetry:1.5.1 python:3.11.4
+
+### 5、功能点入口
+* indexer 查询入口：web/main.py @App.route('/indexer', methods=['POST', 'GET'])
+* 【导航栏：资源搜索】： web/main.py @App.route('/search', methods=['POST', 'GET']) 
+* 【头部：搜索框】 action.py function: __search(data) -> Searcher().search_medias -> indexer.search_by_keyword -> executor.sumbit(search) -> builtin.py: function search() -> __spider_search 
